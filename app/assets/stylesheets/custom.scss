@@ -1,0 +1,72 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+    font-family: "Open Sans",Arial,sans-serif;
+    color: #333;
+    margin: auto;
+}
+.center {
+  text-align: center;
+}
+/* footer */
+
+footer {
+  margin-top: 30px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #666666;
+  width: 100%;
+}
+
+footer a {
+  color: #666666;
+}
+
+footer a:hover {
+  color: #666666;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  /* float: right; */
+  margin-left: -50px;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-left: 15px;
+}
+
+.oyd-logo {
+    background: asset-data-url("oydapp.png") center top no-repeat;
+    height: 40px;
+    width: 40px;
+    float: left;
+    background-size: cover;
+    margin-top: 7px;
+    margin-right: 10px
+}
+
+[data-toggle="collapse"].collapsed .if-not-collapsed {
+  display: none;
+}
+[data-toggle="collapse"]:not(.collapsed) .if-collapsed {
+  display: none;
+}
+
+.nopadding {
+    padding: 0 !important;
+}
+
+.content {
+    padding: 20px;
+}

@@ -1,0 +1,427 @@
+<% provide(:title, "Brutto-Netto-Rechner") %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p align="center">Diese Seite bietet unterschiedliche Berechnungsmethoden und Informationen zur Ermittlung des Nettogehalts.<br>
+            Die Erstellung und Pflege der Seite erfolgt mit freundlicher Unterstützung der <a href="http://www.taxbert.at/" target="_blank">taxbert Unternehmens- und Steuerberatungs GmbH</a>.</p>
+        </div>
+    </div>
+
+	<div class="row">
+		<div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="<%= (params['mode'].to_s=='dienstnehmer' || params['mode'].to_s=='') ? 'active' : '' %>">
+                    <a href="#dienstnehmer" aria-controls="dienstnehmer" role="tab" data-toggle="tab">
+                        für Dienstnehmer
+                    </a>
+                </li>
+<!--                <li role="presentation">
+                    <a href="#chart_DN" aria-controls="chart_DN" role="tab" data-toggle="tab">
+                        Gehaltskurve
+                    </a>
+                </li> -->
+                <li role="presentation" class="<%= (params['mode'].to_s=='dienstgeber') ? 'active' : '' %>">
+                    <a href="#dienstgeber" aria-controls="dienstgeber" role="tab" data-toggle="tab">
+                        für Dienstgeber
+                    </a>
+                </li>
+                <li role="presentation" class="<%= params['mode'].to_s=='est' ? 'active' : '' %>">
+                    <a href="#est" aria-controls="est" role="tab" data-toggle="tab">
+                        Einkommenssteuer
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane<%= (params['mode'].to_s=='dienstnehmer' || params['mode'].to_s=='') ? ' active' : '' %>" id="dienstnehmer">
+                    <div style="padding: 10px;">
+                        <%= render 'pages/dienstnehmer' %>
+                    </div>
+                </div>
+<!--                <div role="tabpanel" class="tab-pane" id="chart_DN">
+                    <div style="padding: 10px;">
+                        <%= image_tag "chart_DN.png" %>
+                    </div>
+                </div> -->
+                <div role="tabpanel" class="tab-pane<%= (params['mode'].to_s=='dienstgeber') ? ' active' : '' %>" id="dienstgeber">
+                    <div style="padding: 10px;">
+                        <%= render 'pages/dienstgeber' %>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane<%= params['mode'].to_s=='est' ? ' active' : '' %>" id="est">
+                    <div style="padding: 10px;">
+                        <%= render 'pages/est' %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="margin-top: 40px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="brgl_sv">
+                        <h2 class="panel-title">
+                            <a role="button" data-toggle="collapse" 
+                                data-parent="#accordion" href="#collapseOne" 
+                                aria-expanded="true" aria-controls="collapseOne">
+                                    Berechnungsgrundlage für Sozialversicherung bei Dienstnehmern
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" 
+                            role="tabpanel" aria-labelledby="brgl_sv">
+                        <div class="panel-body">
+                            <h4>Sozialversicherungs-Beitragssätze</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Krankenversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dn_KV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Pensionsversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dn_PV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Arbeitslosenversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dn_AV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Arbeiterkammerumlage:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dn_AK_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Wohnbauförderungsbeitrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dn_WF_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <h4>Bemessungsgrundlage</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Geringfügigkeitsgrenze:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@gfgk, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Höchstbemessungsgrundlage:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@hbgl, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <h4>Insolvenzentgelt-Abschläge</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    1% Abschlag bis:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@ie_abschlag_1p, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    2% Abschlag bis:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@ie_abschlag_2p, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    3% Abschlag bis:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@ie_abschlag_3p, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="dg_brgl_sv">
+                        <h2 class="panel-title">
+                            <a role="button" data-toggle="collapse" 
+                                data-parent="#accordion" href="#collapseOneDG" 
+                                aria-expanded="true" aria-controls="collapseOneDG">
+                                    Berechnungsgrundlage für Sozialversicherung bei Dienstgebern
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="collapseOneDG" class="panel-collapse collapse" 
+                            role="tabpanel" aria-labelledby="dg_brgl_sv">
+                        <div class="panel-body">
+                            <h4>Sozialversicherungs-Beitragssätze</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Krankenversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dg_KV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Unfallversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dg_UV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Pensionsversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dg_PV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Arbeitslosenversicherung:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dg_AV_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Wohnbauförderungsbeitrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dg_WF_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Insolvenzentgelts-Zuschlag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@dg_IE_beitrag, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <h4>Bemessungsgrundlage</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Geringfügigkeitsgrenze:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@gfgk, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Höchstbemessungsgrundlage:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@hbgl, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="brgl_lst">
+                        <h2 class="panel-title">
+                            <a role="button" data-toggle="collapse" 
+                                data-parent="#accordion" href="#collapseTwo" 
+                                aria-expanded="true" aria-controls="collapseTwo">
+                                    Berechnungsgrundlage für Lohnsteuer
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" 
+                            role="tabpanel" aria-labelledby="brgl_lst">
+                        <div class="panel-body">
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Freibetrag für 13. Bezug:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@lst_frei_13, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Werbungskosten-Pauschale:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@wk_pauschale, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Sonderausgaben:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@sonder_ausgaben, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Verkehrsabsetzbetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@verkehr_ab, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="est_general">
+                        <h2 class="panel-title">
+                            <a role="button" data-toggle="collapse" 
+                                data-parent="#accordion" href="#collapseThree" 
+                                aria-expanded="true" aria-controls="collapseThree">
+                                    Berechnungsgrundlage für Lohnnebenkosten
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" 
+                            role="tabpanel" aria-labelledby="est_general">
+                        <div class="panel-body">
+                            <h4>Dienstgeberbeitrag</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Satz:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@DB_Satz, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Freibetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@Freibetrag_DB, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Einschleifbetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@Einschleifbetrag_DB, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <h4>Zuschlag zum Dienstgeberbeitrag</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Satz:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@DZ_Satz, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Freibetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@Freibetrag_DZ, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Einschleifbetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@Einschleifbetrag_DZ, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <h4>Kommunalsteuer</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Satz:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@KommSt, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Freibetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@Freibetrag_KommSt, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Einschleifbetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ <%= number_with_precision(@Einschleifbetrag_KommSt, precision: 2, delimiter: ',').to_s %></em>
+                                </div>
+                            </div>
+                            <h4>Betriebliche Vorsorgekasse</h4>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Satz:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em><%= number_with_precision(@BMVK_Satz, precision: 2, delimiter: ',').to_s %>%</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="est_general">
+                        <h2 class="panel-title">
+                            <a role="button" data-toggle="collapse" 
+                                data-parent="#accordion" href="#collapseThree" 
+                                aria-expanded="true" aria-controls="collapseThree">
+                                    Berechnung der Einkommenssteuer
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" 
+                            role="tabpanel" aria-labelledby="est_general">
+                        <div class="panel-body">
+                            <p>Die Einkommenssteuer ist eine gemeinschaftliche Bundesabgabe und wird vom zu versteuernden Jahreseinkommen (= Bemessungsgrundlage) natürlicher Personen erhoben. In Österreich kommt ein progressiver Steuertarif zur Anwendung der sich wie folgt berechnet:</p>
+                            <pre>Wenn Bemessungsgrundlage <= € 11.000
+    keine Steuern (€ 0)
+Wenn Bemessungsgrundlage > € 11.000 und <= € 18.000
+    25% von (Bemessungsgrundlage - € 11.000)
+Wenn Bemessungsgrundlage > € 18.000 und <= € 31.000
+    € 1.750 + 35% von (Bemessungsgrundlage - € 18.000)
+Wenn Bemessungsgrundlage > € 31.000 und <= € 60.000
+    € 6.300 + 42% von (Bemessungsgrundlage - €31.000)
+Wenn Bemessungsgrundlage > € 60.000 und <= € 90.000
+    € 18.480 + 48% von (Bemessungsgrundlage - €60.000)
+Wenn Bemessungsgrundlage > € 90.000 und <= € 1.000.000
+    € 32.880 + 50% von (Bemessungsgrundlage - €90.000)
+Wenn Bemessungsgrundlage > € 1.000.000
+    € 487.880 + 55% von (Bemessungsgrundlage - €1.000.000)</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.selectpicker').selectpicker('refresh');
+</script>

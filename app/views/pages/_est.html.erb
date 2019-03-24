@@ -1,0 +1,20 @@
+<%= form_with url: est_path do |form| %>
+    <div class="form-group">
+        <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 15px;">
+            Bemessungsgrundlage:
+        </label>
+        <div class="col-sm-12 col-md-9">
+            <%= form.number_field :est_bmgl, value: params[:bmgl].to_f, style: "text-align: right;" %>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-offset-3 col-md-9" style="padding: 18px;">
+        <%= form.submit "Berechnen", class: "btn btn-primary", style:"margin-left: -3px;" %>
+        <a href="/" class="btn btn-default">Zurücksetzen</a>
+    </div>
+<% end %>
+
+<div style="clear: both;"></div>
+<% flash.each do |message_type, message| %>
+    <div class="alert alert-<%= message_type %>"><%= message.html_safe %></div>
+<% end %>
+

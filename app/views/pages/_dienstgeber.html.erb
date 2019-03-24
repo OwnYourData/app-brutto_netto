@@ -1,0 +1,238 @@
+<%= form_with url: dienstgeber_path do |form| %>
+    <div class="form-group">
+        <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 15px;">
+            monatliches Bruttogehalt:
+        </label>
+        <div class="col-sm-12 col-md-9">
+            <%= form.number_field :dg_brutto_gehalt, value: params[:brutto_gehalt].to_f, style: "text-align: right; margin-bottom: 10px;" %>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 15px;">
+            Bundesland:
+        </label>
+        <div class="col-sm-12 col-md-9">
+            <%= form.collection_select(:dg_bundesland,
+                  { "Burgenland"        => "bgld",
+                    "Kärnten"           => "ktn",
+                    "Niederösterreich"  => "noe",
+                    "Oberösterreich"    => "ooe",
+                    "Salzburg"          => "sbg",
+                    "Steiermark"        => "stmk",
+                    "Tirol"             => "trl",
+                    "Vorarlberg"        => "vbg",
+                    "Wien"              => "wien" }, 
+                  :last, :first, { selected: params[:bundesland] || "wien" }, 
+                  multiple: false, id: "dg-bundesland", class: "selectpicker", style: "margin-bottom: 10px;" ) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="dg_settings_accordion" role="tablist" 
+                aria-multiselectable="true">
+                <div>
+                    <div role="tab" id="dg_settings">
+                        <h2 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" 
+                                data-parent="#dg_settings_accordion" 
+                                href="#dg_settings_collapseOne" 
+                                aria-expanded="false" 
+                                aria-controls="dg_settings_collapseOne"
+                                style="margin-left: 15px; text-decoration-line: none; font-size: 14px;"><strong>
+                                    <span class="if-collapsed"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                                    <span class="if-not-collapsed"><i class="fa fa-minus-square-o" aria-hidden="true"></i></span>
+                                    weitere Einstellungen
+                            </strong></a>
+                        </h2>
+                    </div>
+                    <div id="dg_settings_collapseOne" class="panel-collapse collapse collapsed" 
+                            role="tabpanel" aria-labelledby="dg_settings">
+                        <div class="panel-body">
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    für Jahr:
+                                </label>
+                                <div class="col-sm-12 col-md-9" style="margin-top: -7px;">
+                                    <%= form.collection_select(:dg_year,
+                                          { "2019"        => "2019",
+                                            "2018"        => "2018" }, 
+                                          :last, :first, { selected: params[:year] || "2019" }, 
+                                          multiple: false, id: "dg_year", class: "selectpicker", style: "margin-bottom: 10px;" ) %>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    übriges monatliches Gehalt:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ 0</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Alleinverdiener- / Alleinerzieherabsetzbetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>nein</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Sachbezug:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ 0</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Pendlerpauschale:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>keine</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-offset-3 col-md-9">
+        <%= form.submit "Berechnen", class: "btn btn-primary", style:"margin-left: -3px;" %>
+        <a href="/?mode=dienstgeber" class="btn btn-default">Zurücksetzen</a>
+    </div>
+<% end %>
+
+<% if params[:brutto_gehalt].to_s != "" %>
+
+<h2 style="margin-top: 50px;">Kosten für Dienstgeber</h2>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table table-striped table-bordered" style="text-align: right;">
+            <thead style="color: #fff; background: #2a2c33;">
+                <tr>
+                    <th scope="col" style="width: 300px;">&nbsp;</th>
+                    <th scope="col" style="width: 150px; text-align: right;">monatliche Kosten</th>
+                    <th scope="col" style="width: 150px; text-align: right;">Kosten 13.</th>
+                    <th scope="col" style="width: 150px; text-align: right;">Kosten 14.</th>
+                    <th scope="col" style="width: 150px; text-align: right;">Jahreskosten</th>                
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Bruttogehalt</th>
+                    <td>€ <%= number_with_precision(params[:brutto_gehalt], precision: 2, delimiter: ',').to_s %></td>
+                    <td>€ <%= number_with_precision(params[:brutto_gehalt], precision: 2, delimiter: ',').to_s %></td>
+                    <td>€ <%= number_with_precision(params[:brutto_gehalt], precision: 2, delimiter: ',').to_s %></td>
+                    <td>€ <%= number_with_precision(params[:brutto_gehalt].to_f*14, precision: 2, delimiter: ',').to_s %></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <a class="collapsed" role="button" data-target="#sv_collapse_dg_KV,#sv_collapse_dg_UV,#sv_collapse_dg_PV,#sv_collapse_dg_AV,#sv_collapse_dg_WF,#sv_collapse_dg_IE" data-toggle="collapse" aria-expanded="false" style="color: #333; text-decoration-line: none;">
+                            <span class="if-collapsed"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                            <span class="if-not-collapsed"><i class="fa fa-minus-square-o" aria-hidden="true"></i></span>
+                            Sozialversicherung
+                        </a>
+                    </th>
+                    <td><%= @monatlich_dg_SV.to_s %></td>
+                    <td><%= @mon_13_14_dg_SV.to_s %></td>
+                    <td><%= @mon_13_14_dg_SV.to_s %></td>
+                    <td><%= @jahres_dg_SV.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_KV" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Krankenversicherung</th>
+                    <td><%= @monatlich_dg_KV.to_s %></td>
+                    <td><%= @monatlich_dg_KV.to_s %></td>
+                    <td><%= @monatlich_dg_KV.to_s %></td>
+                    <td><%= @jahres_dg_KV.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_UV" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Unfallversicherung</th>
+                    <td><%= @monatlich_dg_UV.to_s %></td>
+                    <td><%= @monatlich_dg_UV.to_s %></td>
+                    <td><%= @monatlich_dg_UV.to_s %></td>
+                    <td><%= @jahres_dg_UV.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_PV" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Pensionsversicherung</th>
+                    <td><%= @monatlich_dg_PV.to_s %></td>
+                    <td><%= @monatlich_dg_PV.to_s %></td>
+                    <td><%= @monatlich_dg_PV.to_s %></td>
+                    <td><%= @jahres_dg_PV.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_AV" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Arbeitslosenversicherung</th>
+                    <td><%= @monatlich_dg_AV.to_s %></td>
+                    <td><%= @monatlich_dg_AV.to_s %></td>
+                    <td><%= @monatlich_dg_AV.to_s %></td>
+                    <td><%= @jahres_dg_AV.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_WF" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Wohnbauförderungsbeitrag</th>
+                    <td><%= @monatlich_dg_WF.to_s %></td>
+                    <td><%= @mon_13_14_dg_WF.to_s %></td>
+                    <td><%= @mon_13_14_dg_WF.to_s %></td>
+                    <td><%= @jahres_dg_WF.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_IE" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Insolvenzentgelts-Zuschlag</th>
+                    <td><%= @monatlich_dg_IE.to_s %></td>
+                    <td><%= @monatlich_dg_IE.to_s %></td>
+                    <td><%= @monatlich_dg_IE.to_s %></td>
+                    <td><%= @jahres_dg_IE.to_s %></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <a class="collapsed" role="button" data-target="#sv_collapse_dg_DB,#sv_collapse_dg_DZ,#sv_collapse_dg_KS,#sv_collapse_dg_BV" data-toggle="collapse" aria-expanded="false" style="color: #333; text-decoration-line: none;">
+                            <span class="if-collapsed"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                            <span class="if-not-collapsed"><i class="fa fa-minus-square-o" aria-hidden="true"></i></span>
+                            Lohnnebenkosten
+                        </a>
+                    </th>
+                    <td><%= @monatlich_dg_LNK.to_s %></td>
+                    <td><%= @monatlich_dg_LNK.to_s %></td>
+                    <td><%= @monatlich_dg_LNK.to_s %></td>
+                    <td><%= @jahres_dg_LNK.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_DB" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Dienstgeberbeitrag</th>
+                    <td><%= @monatlich_dg_DB.to_s %></td>
+                    <td><%= @monatlich_dg_DB.to_s %></td>
+                    <td><%= @monatlich_dg_DB.to_s %></td>
+                    <td><%= @jahres_dg_DB.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_DZ" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Zuschlag zum Dienstgeberbeitrag</th>
+                    <td><%= @monatlich_dg_DZ.to_s %></td>
+                    <td><%= @monatlich_dg_DZ.to_s %></td>
+                    <td><%= @monatlich_dg_DZ.to_s %></td>
+                    <td><%= @jahres_dg_DZ.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_KS" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Kommunalsteuer</th>
+                    <td><%= @monatlich_dg_KS.to_s %></td>
+                    <td><%= @monatlich_dg_KS.to_s %></td>
+                    <td><%= @monatlich_dg_KS.to_s %></td>
+                    <td><%= @jahres_dg_KS.to_s %></td>
+                </tr>
+                <tr id="sv_collapse_dg_BV" class="collapse">
+                    <th scope="row" style="padding-left: 40px;">Betriebliche Vorsorgekasse</th>
+                    <td><%= @monatlich_dg_BV.to_s %></td>
+                    <td><%= @monatlich_dg_BV.to_s %></td>
+                    <td><%= @monatlich_dg_BV.to_s %></td>
+                    <td><%= @jahres_dg_BV.to_s %></td>
+                </tr>
+                <tr>
+                    <th scope="row">Personalkosten</th>
+                    <td><%= @monatlich_dg_gesamt.to_s %></td>
+                    <td><%= @mon1314_dg_gesamt.to_s %></td>
+                    <td><%= @mon1314_dg_gesamt.to_s %></td>
+                    <td><%= @jahres_dg_gesamt.to_s %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> 
+
+<% end %>

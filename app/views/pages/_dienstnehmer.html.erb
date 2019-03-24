@@ -1,0 +1,185 @@
+<%= form_with url: dienstnehmer_path do |form| %>
+    <div class="form-group">
+        <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 15px;">
+            mein monatliches Bruttogehalt:
+        </label>
+        <div class="col-sm-12 col-md-9">
+            <%= form.number_field :brutto_gehalt, value: params[:brutto_gehalt].to_f, style: "text-align: right;" %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="dn_settings_accordion" role="tablist" 
+                aria-multiselectable="true">
+                <div>
+                    <div role="tab" id="dn_settings">
+                        <h2 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" 
+                                data-parent="#dn_settings_accordion" 
+                                href="#dn_settings_collapseOne" 
+                                aria-expanded="false" 
+                                aria-controls="dn_settings_collapseOne"
+                                style="margin-left: 15px; text-decoration-line: none; font-size: 14px;"><strong>
+                                    <span class="if-collapsed"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                                    <span class="if-not-collapsed"><i class="fa fa-minus-square-o" aria-hidden="true"></i></span>
+                                    weitere Einstellungen
+                            </strong></a>
+                        </h2>
+                    </div>
+                    <div id="dn_settings_collapseOne" class="panel-collapse collapse collapsed" 
+                            role="tabpanel" aria-labelledby="dn_settings">
+                        <div class="panel-body">
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    für Jahr:
+                                </label>
+                                <div class="col-sm-12 col-md-9" style="margin-top: -7px;">
+                                    <%= form.collection_select(:dn_year,
+                                          { "2019"        => "2019",
+                                            "2018"        => "2018" }, 
+                                          :last, :first, { selected: params[:year] || "2019" }, 
+                                          multiple: false, id: "dn_year", class: "selectpicker", style: "margin-bottom: 10px;" ) %>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    ich bin:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>Angestellter</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Alleinverdiener- / Alleinerzieherabsetzbetrag:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>nein</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Sachbezug:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>€ 0</em>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
+                                    Pendlerpauschale:
+                                </label>
+                                <div class="col-sm-12 col-md-9">
+                                    <em>keine</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-offset-3 col-md-9">
+        <%= form.submit "Berechnen", class: "btn btn-primary", style:"margin-left: -3px;" %>
+        <a href="/" class="btn btn-default">Zurücksetzen</a>
+    </div>
+<% end %>
+
+<% if params[:brutto_gehalt].to_s != "" %>
+
+<h2 style="margin-top: 50px;">Dein Einkommen</h2>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+            <table class="table table-striped table-bordered" style="text-align: right;">
+                <thead style="color: #fff; background: #2a2c33;">
+                    <tr>
+                        <th scope="col" style="width: 300px;">&nbsp;</th>
+                        <th scope="col" style="width: 150px; text-align: right;">monatlicher Bezug</th>
+                        <th scope="col" style="width: 150px; text-align: right;">13. Bezug</th>
+                        <th scope="col" style="width: 150px; text-align: right;">14. Bezug</th>
+                        <th scope="col" style="width: 150px; text-align: right;">Jahresbezug</th>                
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Brutto</th>
+                        <td>€ <%= number_with_precision(params[:brutto_gehalt], precision: 2, delimiter: ',').to_s %></td>
+                        <td>€ <%= number_with_precision(params[:brutto_gehalt], precision: 2, delimiter: ',').to_s %></td>
+                        <td>€ <%= number_with_precision(params[:brutto_gehalt], precision: 2, delimiter: ',').to_s %></td>
+                        <td>€ <%= number_with_precision(params[:brutto_gehalt].to_f*14, precision: 2, delimiter: ',').to_s %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <a class="collapsed" role="button" data-target="#sv_collapse_KV,#sv_collapse_UV,#sv_collapse_PV,#sv_collapse_AV,#sv_collapse_WF,#sv_collapse_IE" data-toggle="collapse" aria-expanded="false" style="color: #333; text-decoration-line: none;">
+                                <span class="if-collapsed"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                                <span class="if-not-collapsed"><i class="fa fa-minus-square-o" aria-hidden="true"></i></span>
+                                Sozialversicherung
+                            </a>
+                        </th>
+                        <td><%= @monatlich_SV.to_s %></td>
+                        <td><%= @mon_13_14_SV.to_s %></td>
+                        <td><%= @mon_13_14_SV.to_s %></td>
+                        <td><%= @jahres_SV.to_s %></td>
+                    </tr>
+                    <tr id="sv_collapse_KV" class="collapse">
+                        <th scope="row" style="padding-left: 40px;">Krankenversicherung</th>
+                        <td><%= @monatlich_KV.to_s %></td>
+                        <td><%= @monatlich_KV.to_s %></td>
+                        <td><%= @monatlich_KV.to_s %></td>
+                        <td><%= @jahres_KV.to_s %></td>
+                    </tr>
+                    <tr id="sv_collapse_PV" class="collapse">
+                        <th scope="row" style="padding-left: 40px;">Pensionsversicherung</th>
+                        <td><%= @monatlich_PV.to_s %></td>
+                        <td><%= @monatlich_PV.to_s %></td>
+                        <td><%= @monatlich_PV.to_s %></td>
+                        <td><%= @jahres_PV.to_s %></td>
+                    </tr>
+                    <tr id="sv_collapse_AV" class="collapse">
+                        <th scope="row" style="padding-left: 40px;">Arbeitslosenversicherung</th>
+                        <td><%= @monatlich_AV.to_s %></td>
+                        <td><%= @monatlich_AV.to_s %></td>
+                        <td><%= @monatlich_AV.to_s %></td>
+                        <td><%= @jahres_AV.to_s %></td>
+                    </tr>
+                    <tr id="sv_collapse_AV" class="collapse">
+                        <th scope="row" style="padding-left: 40px;">Arbeiterkammerumlage</th>
+                        <td><%= @monatlich_AK.to_s %></td>
+                        <td><%= @mon_13_14_AK.to_s %></td>
+                        <td><%= @mon_13_14_AK.to_s %></td>
+                        <td><%= @jahres_AK.to_s %></td>
+                    </tr>
+                    <tr id="sv_collapse_WF" class="collapse">
+                        <th scope="row" style="padding-left: 40px;">Wohnbauförderungsbeitrag</th>
+                        <td><%= @monatlich_WF.to_s %></td>
+                        <td><%= @mon_13_14_WF.to_s %></td>
+                        <td><%= @mon_13_14_WF.to_s %></td>
+                        <td><%= @jahres_WF.to_s %></td>
+                    </tr>
+                    <tr id="sv_collapse_IE" class="collapse">
+                        <th scope="row" style="padding-left: 40px;">Insolvenzentgelt-Abschlag</th>
+                        <td><%= @monatlich_IE_abschlag.to_s %></td>
+                        <td><%= @mon_13_14_IE_abschlag.to_s %></td>
+                        <td><%= @mon_13_14_IE_abschlag.to_s %></td>
+                        <td><%= @jahres_IE_abschlag.to_s %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Lohnsteuer</th>
+                        <td><%= @monatlich_LSt.to_s %></td>
+                        <td><%= @mon13_LSt.to_s %></td>
+                        <td><%= @mon14_LSt.to_s %></td>
+                        <td><%= @jahres_LSt.to_s %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Netto</th>
+                        <td><%= @monatlich_netto.to_s %></td>
+                        <td><%= @mon13_netto.to_s %></td>
+                        <td><%= @mon14_netto.to_s %></td>
+                        <td><%= @jahres_netto.to_s %></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div> 
+
+<% end %>
