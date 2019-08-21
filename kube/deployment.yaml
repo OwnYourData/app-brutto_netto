@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brutto-netto-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: brutto-netto
+  template:
+    metadata:
+      labels:
+        app: burtto-netto
+    spec:
+      containers:
+      - name: burtto-netto
+        image: oydeu/app-brutto_netto:latest
+        ports:
+        - containerPort: 3000
+        env:
+          - name: LANG
+            value: C.UTF-8
+          - name: RAILS_LOG_TO_STDOUT
+            value: "TRUE"
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "TRUE"
+          - name: RAILS_ENV
+            value: production
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: brutto-netto-secrets
+                key: secret-key-base
+          - name: GOOGLE_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: general-secrets
+                key: google-token
