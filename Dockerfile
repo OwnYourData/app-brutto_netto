@@ -23,6 +23,6 @@ COPY . .
 
 RUN bundle update
 
-CMD ["./script/run.sh"]
+CMD ["bin/rails", "server", "-b", "0.0.0.0"]
 
 EXPOSE 3000

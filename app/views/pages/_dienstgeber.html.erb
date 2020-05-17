@@ -54,9 +54,10 @@
                                 </label>
                                 <div class="col-sm-12 col-md-9" style="margin-top: -7px;">
                                     <%= form.collection_select(:dg_year,
-                                          { "2019"        => "2019",
+                                          { "2020"        => "2020",
+                                            "2019"        => "2019",
                                             "2018"        => "2018" }, 
-                                          :last, :first, { selected: params[:year] || "2019" }, 
+                                          :last, :first, { selected: params[:year] || "2020" }, 
                                           multiple: false, id: "dg_year", class: "selectpicker", style: "margin-bottom: 10px;" ) %>
                                 </div>
                             </div>

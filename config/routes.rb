@@ -5,5 +5,9 @@ Rails.application.routes.draw do
 		match 'dienstnehmer', to: 'pages#dienstnehmer', via: 'post'
 		match 'dienstgeber',  to: 'pages#dienstgeber',  via: 'post'
 		match 'favicon',      to: 'pages#favicon',      via: 'get'
+
+		match '/stats',       to: 'stats#index',        via: 'get'
+		match '/stats',       to: 'stats#data',         via: 'post'
+
 	end
 end

@@ -1,9 +1,9 @@
 <% provide(:title, "Brutto-Netto-Rechner") %>
-<div class="container">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col-md-12">
             <p align="center">Diese Seite bietet unterschiedliche Berechnungsmethoden und Informationen zur Ermittlung des Nettogehalts.<br>
-            Die Erstellung und Pflege der Seite erfolgt mit freundlicher Unterstützung der <a href="http://www.taxbert.at/" target="_blank">taxbert Unternehmens- und Steuerberatungs GmbH</a>.</p>
+            Die Erstellung und Pflege der Seite erfolgt mit freundlicher Unterstützung der <a href="http://www.taxbert.at/" target="_blank" onmousedown="$('#stats_target').val('taxbert');$('#stats_form').submit();">taxbert & Partner Steuerberatung GmbH</a>.</p>
         </div>
     </div>
 
@@ -39,7 +39,7 @@
                 </div>
 <!--                <div role="tabpanel" class="tab-pane" id="chart_DN">
                     <div style="padding: 10px;">
-                        <%= image_tag "chart_DN.png" %>
+                        < % = image_tag "chart_DN.png" % >
                     </div>
                 </div> -->
                 <div role="tabpanel" class="tab-pane<%= (params['mode'].to_s=='dienstgeber') ? ' active' : '' %>" id="dienstgeber">
@@ -63,7 +63,7 @@
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" 
                                 data-parent="#accordion" href="#collapseOne" 
-                                aria-expanded="true" aria-controls="collapseOne">
+                                aria-expanded="true" aria-controls="collapseOne" onmousedown="$('#stats_target').val('Berechnungsgrundlage für Sozialversicherung bei Dienstnehmern');$('#stats_form').submit();">
                                     Berechnungsgrundlage für Sozialversicherung bei Dienstnehmern
                             </a>
                         </h2>
@@ -129,7 +129,7 @@
                                     <em>€ <%= number_with_precision(@hbgl, precision: 2, delimiter: ',').to_s %></em>
                                 </div>
                             </div>
-                            <h4>Insolvenzentgelt-Abschläge</h4>
+                            <h4>Arbeitslosenversicherungs-Abschläge</h4>
                             <div class="row">
                                 <label class="col-sm-12 col-md-3 control-label" style="padding: 0 0 0 20px; text-align: right;">
                                     1% Abschlag bis:
@@ -162,7 +162,7 @@
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" 
                                 data-parent="#accordion" href="#collapseOneDG" 
-                                aria-expanded="true" aria-controls="collapseOneDG">
+                                aria-expanded="true" aria-controls="collapseOneDG" onmousedown="$('#stats_target').val('Berechnungsgrundlage für Sozialversicherung bei Dienstgebern');$('#stats_form').submit();">
                                     Berechnungsgrundlage für Sozialversicherung bei Dienstgebern
                             </a>
                         </h2>
@@ -244,7 +244,7 @@
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" 
                                 data-parent="#accordion" href="#collapseTwo" 
-                                aria-expanded="true" aria-controls="collapseTwo">
+                                aria-expanded="true" aria-controls="collapseTwo" onmousedown="$('#stats_target').val('Berechnungsgrundlage für Lohnsteuer');$('#stats_form').submit();">
                                     Berechnungsgrundlage für Lohnsteuer
                             </a>
                         </h2>
@@ -292,7 +292,7 @@
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" 
                                 data-parent="#accordion" href="#collapseThree" 
-                                aria-expanded="true" aria-controls="collapseThree">
+                                aria-expanded="true" aria-controls="collapseThree" onmousedown="$('#stats_target').val('Berechnungsgrundlage für Lohnnebenkosten');$('#stats_form').submit();">
                                     Berechnungsgrundlage für Lohnnebenkosten
                             </a>
                         </h2>
@@ -391,13 +391,13 @@
                     <div class="panel-heading" role="tab" id="est_general">
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" 
-                                data-parent="#accordion" href="#collapseThree" 
-                                aria-expanded="true" aria-controls="collapseThree">
+                                data-parent="#accordion" href="#collapseFour" 
+                                aria-expanded="true" aria-controls="collapseFour" onmousedown="$('#stats_target').val('Berechnungsgrundlage für Einkommenssteuer');$('#stats_form').submit();">
                                     Berechnung der Einkommenssteuer
                             </a>
                         </h2>
                     </div>
-                    <div id="collapseThree" class="panel-collapse collapse" 
+                    <div id="collapseFour" class="panel-collapse collapse" 
                             role="tabpanel" aria-labelledby="est_general">
                         <div class="panel-body">
                             <p>Die Einkommenssteuer ist eine gemeinschaftliche Bundesabgabe und wird vom zu versteuernden Jahreseinkommen (= Bemessungsgrundlage) natürlicher Personen erhoben. In Österreich kommt ein progressiver Steuertarif zur Anwendung der sich wie folgt berechnet:</p>

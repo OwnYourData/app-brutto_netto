@@ -35,9 +35,10 @@
                                 </label>
                                 <div class="col-sm-12 col-md-9" style="margin-top: -7px;">
                                     <%= form.collection_select(:dn_year,
-                                          { "2019"        => "2019",
+                                          { "2020"        => "2020",
+                                            "2019"        => "2019",
                                             "2018"        => "2018" }, 
-                                          :last, :first, { selected: params[:year] || "2019" }, 
+                                          :last, :first, { selected: params[:year] || "2020" }, 
                                           multiple: false, id: "dn_year", class: "selectpicker", style: "margin-bottom: 10px;" ) %>
                                 </div>
                             </div>
@@ -157,7 +158,7 @@
                         <td><%= @jahres_WF.to_s %></td>
                     </tr>
                     <tr id="sv_collapse_IE" class="collapse">
-                        <th scope="row" style="padding-left: 40px;">Insolvenzentgelt-Abschlag</th>
+                        <th scope="row" style="padding-left: 40px;">Arbeitslosenversicherungs-Abschlag</th>
                         <td><%= @monatlich_IE_abschlag.to_s %></td>
                         <td><%= @mon_13_14_IE_abschlag.to_s %></td>
                         <td><%= @mon_13_14_IE_abschlag.to_s %></td>

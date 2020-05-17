@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app: burtto-netto
+        app: brutto-netto
     spec:
       containers:
-      - name: burtto-netto
+      - name: brutto-netto
         image: oydeu/app-brutto_netto:latest
         ports:
         - containerPort: 3000
@@ -26,6 +26,17 @@ spec:
             value: "TRUE"
           - name: RAILS_ENV
             value: production
+          - name: DB_HOST
+            value: db-cluster-postgresql.default.svc.cluster.local
+          - name: DB_NAME
+            value: brutto_netto_production
+          - name: DB_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: general-secrets
+                key: db-passwd
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:

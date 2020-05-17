@@ -3,45 +3,54 @@ class PagesController < ApplicationController
     include ActionView::Helpers::NumberHelper
 
     def index
-        year = params[:year] || "2019"
+
+        Statistic.new(
+            timestamp: DateTime.now.to_i,
+            url: request.headers["HTTP_REFERER"].to_s,
+            target: params.to_json,
+            session_id: Digest::SHA256.hexdigest(request.remote_ip.to_s + " " +  request.env['HTTP_USER_AGENT'].to_s + Rails.application.secrets.secret_key_base.to_s)
+        ).save
+
+
+        year = params[:year] || "2020"
 
         # =========================================
         # für DIENSTNEHMER
         # =========================================
 
         # Geringfügigkeitsgrenze https://www.wko.at/service/arbeitsrecht-sozialrecht/beitragswesen-dienstnehmer-2019.html
-        @gfgk_year = { "2018": 438.05, "2019": 446.81 }.stringify_keys
+        @gfgk_year = { "2018": 438.05, "2019": 446.81, "2020": 460.66 }.stringify_keys
         # Höchstbemessungsgrundlage https://www.wko.at/service/arbeitsrecht-sozialrecht/beitragswesen-dienstnehmer-2019.html
-        @hbgl_year = {"2018": 5130, "2019": 5220 }.stringify_keys
+        @hbgl_year = {"2018": 5130, "2019": 5220, "2020": 5370 }.stringify_keys
 
         # SV Beitragssätze -----------
         # Krankenversicherung https://www.wko.at/service/arbeitsrecht-sozialrecht/beitragswesen-dienstnehmer-2019.html
-        @dn_KV_beitrag_year = { "2018": 3.87, "2019": 3.87 }.stringify_keys
+        @dn_KV_beitrag_year = { "2018": 3.87, "2019": 3.87, "2020": 3.87 }.stringify_keys
         # Pensionsversicherung https://www.wko.at/service/arbeitsrecht-sozialrecht/beitragswesen-dienstnehmer-2019.html
-        @dn_PV_beitrag_year = { "2018": 10.25, "2019": 10.25 }.stringify_keys
+        @dn_PV_beitrag_year = { "2018": 10.25, "2019": 10.25, "2020": 10.25 }.stringify_keys
         # Arbeitslosenversicherung https://www.wko.at/service/arbeitsrecht-sozialrecht/beitragswesen-dienstnehmer-2019.html
-        @dn_AV_beitrag_year = { "2018": 3, "2019": 3 }.stringify_keys
+        @dn_AV_beitrag_year = { "2018": 3, "2019": 3, "2020": 3 }.stringify_keys
         # Arbeiterkammer
-        @dn_AK_beitrag_year = { "2018": 0.5, "2019": 0.5 }.stringify_keys
+        @dn_AK_beitrag_year = { "2018": 0.5, "2019": 0.5, "2020": 0.5 }.stringify_keys
         # Wohnbauförderung
-        @dn_WF_beitrag_year = { "2018": 0.5, "2019": 0.5 }.stringify_keys
+        @dn_WF_beitrag_year = { "2018": 0.5, "2019": 0.5, "2020": 0.5 }.stringify_keys
 
         # Insolvenzentgelt Abschläge
         # Grenze für Insolvenzentgelt Abschlag von 1%
-        @ie_abschlag_1p_year = { "2018": 1696, "2019": 1987 }.stringify_keys
+        @ie_abschlag_1p_year = { "2018": 1696, "2019": 1987, "2020": 2049 }.stringify_keys
         # Grenze für Insolvenzentgelt Abschlag von 2%
-        @ie_abschlag_2p_year = { "2018": 1506, "2019": 1834 }.stringify_keys
+        @ie_abschlag_2p_year = { "2018": 1506, "2019": 1834, "2020": 1891 }.stringify_keys
         # Grenze für Insolvenzentgelt Abschlag von 3%
-        @ie_abschlag_3p_year = { "2018": 1381, "2019": 1681 }.stringify_keys
+        @ie_abschlag_3p_year = { "2018": 1381, "2019": 1681, "2020": 1733 }.stringify_keys
 
         # Freibetrag Lohnsteuer 13. Bezug
-        @lst_frei_13_year = { "2018": 620, "2019": 620 }.stringify_keys
+        @lst_frei_13_year = { "2018": 620, "2019": 620, "2020": 620 }.stringify_keys
         # Werbungskostenpauschale
-        @wk_pauschale_year = { "2018": 132, "2019": 132 }.stringify_keys
+        @wk_pauschale_year = { "2018": 132, "2019": 132, "2020": 132 }.stringify_keys
         # Sonderausgaben
-        @sonder_ausgaben_year = { "2018": 60, "2019": 60 }.stringify_keys
+        @sonder_ausgaben_year = { "2018": 60, "2019": 60, "2020": 60 }.stringify_keys
         # Verkehrsabsetzbetrag
-        @verkehr_ab_year = { "2018": 400, "2019": 400 }.stringify_keys
+        @verkehr_ab_year = { "2018": 400, "2019": 400, "2020": 400 }.stringify_keys
 
         # Werte für Berechnungsgrundlagen =========
         brutto_monat = params[:brutto_gehalt].to_f
@@ -173,22 +182,22 @@ class PagesController < ApplicationController
 
         # SV Beitragssätze -----------
         # Krankenversicherung https://www.wko.at/service/arbeitsrecht-sozialrecht/beitragswesen-dienstnehmer-2019.html
-        @dg_KV_beitrag_year = { "2018": 3.78, "2019": 3.78 }.stringify_keys
+        @dg_KV_beitrag_year = { "2018": 3.78, "2019": 3.78, "2020": 3.78 }.stringify_keys
         # Unfallversicherung
-        @dg_UV_beitrag_year = { "2018": 1.3, "2019": 1.2 }.stringify_keys
+        @dg_UV_beitrag_year = { "2018": 1.3, "2019": 1.2, "2020": 1.2 }.stringify_keys
         # Pensionsversicherung
-        @dg_PV_beitrag_year = { "2018": 12.55, "2019": 12.55 }.stringify_keys
+        @dg_PV_beitrag_year = { "2018": 12.55, "2019": 12.55, "2020": 12.55 }.stringify_keys
         # Arbeitslosenversicherung
-        @dg_AV_beitrag_year = { "2018": 3, "2019": 3 }.stringify_keys
+        @dg_AV_beitrag_year = { "2018": 3.00, "2019": 3.00, "2020": 3.00 }.stringify_keys
         # Wohnbauförderung
-        @dg_WF_beitrag_year = { "2018": 0.5, "2019": 0.5 }.stringify_keys
+        @dg_WF_beitrag_year = { "2018": 0.5, "2019": 0.5, "2020": 0.5 }.stringify_keys
         # Insolvenzentgelts-Zuschlag
-        @dg_IE_beitrag_year = { "2018": 0.35, "2019": 0.35 }.stringify_keys
+        @dg_IE_beitrag_year = { "2018": 0.35, "2019": 0.35, "2020": 0.20 }.stringify_keys
         
         # Lohnnebenkosten -----------
-        @DB_Satz_year = { "2018": 3.9, "2019": 3.9 }.stringify_keys
-        @Freibetrag_DB_year = { "2018": 1095, "2019": 1095 }.stringify_keys
-        @Einschleifbetrag_DB_year = { "2018": 1460, "2019": 1460 }.stringify_keys
+        @DB_Satz_year = { "2018": 3.9, "2019": 3.9, "2020": 3.9 }.stringify_keys
+        @Freibetrag_DB_year = { "2018": 1095, "2019": 1095, "2020": 1095 }.stringify_keys
+        @Einschleifbetrag_DB_year = { "2018": 1460, "2019": 1460, "2020": 1460 }.stringify_keys
         @DZ_Satz_bundesland_year = {
             "2018": {
                 "bgld" => 0.44,
@@ -208,17 +217,27 @@ class PagesController < ApplicationController
                 "sbg"  => 0.40,
                 "stmk" => 0.37,
                 "trl"  => 0.41,
-                "vbg"  => 0.38,
+                "vbg"  => 0.37,
+                "wien" => 0.38 },
+            "2020": {
+                "bgld" => 0.42,
+                "ktn"  => 0.39,
+                "noe"  => 0.38,
+                "ooe"  => 0.34,
+                "sbg"  => 0.39,
+                "stmk" => 0.37,
+                "trl"  => 0.41,
+                "vbg"  => 0.37,
                 "wien" => 0.38 }
         }.stringify_keys
-        @Freibetrag_DZ_year = { "2018": 1095, "2019": 1095 }.stringify_keys
-        @Einschleifbetrag_DZ_year = { "2018": 1460, "2019": 1460 }.stringify_keys
+        @Freibetrag_DZ_year = { "2018": 1095, "2019": 1095, "2020": 1095 }.stringify_keys
+        @Einschleifbetrag_DZ_year = { "2018": 1460, "2019": 1460, "2020": 1460 }.stringify_keys
 
-        @KommSt_year = { "2018": 3, "2019": 3 }.stringify_keys
-        @Freibetrag_KommSt_year = { "2018": 1095, "2019": 1095 }.stringify_keys
-        @Einschleifbetrag_KommSt_year = { "2018": 1460, "2019": 1460 }.stringify_keys
+        @KommSt_year = { "2018": 3, "2019": 3, "2020": 3 }.stringify_keys
+        @Freibetrag_KommSt_year = { "2018": 1095, "2019": 1095, "2020": 1095 }.stringify_keys
+        @Einschleifbetrag_KommSt_year = { "2018": 1460, "2019": 1460, "2020": 1460 }.stringify_keys
 
-        @BMVK_Satz_year = { "2018": 1.53, "2019": 1.53 }.stringify_keys
+        @BMVK_Satz_year = { "2018": 1.53, "2019": 1.53, "2020": 1.53 }.stringify_keys
 
         # Werte für Berechnungsgrundlagen =========
         @dg_KV_beitrag = @dg_KV_beitrag_year[year]    # Krankenversicherung
