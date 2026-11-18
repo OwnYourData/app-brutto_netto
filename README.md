@@ -9,7 +9,7 @@ Ein Projekt des Vereins [OwnYourData](https://www.ownyourdata.eu/).
 - Rechenkern (`src/kern/rechner.js`) mit Werten für 2026 und 2027 (`src/werte/`).
 - 2026 ist gegen den Brutto-Netto-Rechner des BMF abgeglichen: 20 Fälle, 175 Einzelwerte, keine Abweichung.
 - 2027 ist vorläufig: Die Sozialversicherungswerte 2027 sind noch nicht kundgemacht, und der BMF-Rechner 2027 ist noch nicht verfügbar (siehe `offen` in `src/werte/2027.json`).
-- Oberfläche folgt.
+- Oberfläche auf Deutsch und Englisch (`src/index.html`, `src/en/index.html`); Einwilligung für das Conversion-Signal folgt.
 
 ## Was gerechnet wird
 
@@ -29,6 +29,17 @@ Der Rechner ist eine Näherung und ersetzt keine Steuerberatung.
 ## Werte austauschen
 
 Jedes Jahr hat eine eigene Datei `src/werte/<jahr>.json`. Jeder Wert nennt seine amtliche Quelle (BGBl., RIS, BMF, ÖGK). Für ein neues Jahr: Datei kopieren, Werte aus den Quellen übernehmen, Referenzfälle gegen den BMF-Rechner des neuen Jahres erheben (`test/referenz-<jahr>.json`) und die Tests laufen lassen.
+
+## Lokal starten
+
+Die Seite besteht nur aus statischen Dateien in `src/`. Der Container liefert sie mit nginx aus, ohne Zugriffsprotokoll und mit einer Content-Security-Policy, die nur Dateien dieser Adresse erlaubt:
+
+```
+docker build -t brutto-netto-rechner:dev .
+docker run -d --rm --name brutto-netto -p 8080:8080 brutto-netto-rechner:dev
+```
+
+Danach unter http://localhost:8080 (Deutsch) bzw. http://localhost:8080/en/ (Englisch).
 
 ## Tests
 
