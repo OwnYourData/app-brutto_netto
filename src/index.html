@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="/assets/style.css">
 <script src="/assets/theme.js"></script>
 <script type="module" src="/assets/app.js"></script>
+<script type="module" src="/assets/consent.js"></script>
 </head>
 <body>
 <a class="skip" href="#rechner">Zum Rechner springen</a>
@@ -160,7 +161,7 @@
   <section id="warum" aria-labelledby="warum-titel">
     <h2 id="warum-titel">Warum hier nichts übertragen wird</h2>
     <div class="facts">
-      <div class="panel"><h3>Alles bleibt im Browser</h3><p>Die Berechnung läuft vollständig auf Ihrem Gerät. Es gibt keinen Server, der Ihre Eingaben empfängt, und nichts wird gespeichert.</p></div>
+      <div class="panel"><h3>Alles bleibt im Browser</h3><p>Die Berechnung läuft vollständig auf Ihrem Gerät. Es gibt keinen Server, der Ihre Eingaben empfängt; sie werden nirgends gespeichert.</p></div>
       <div class="panel"><h3>Keine Tracker</h3><p>Keine Cookies, keine Analyse-Werkzeuge, keine Schriften oder Skripte von fremden Servern. Die Seite lädt nur Dateien von dieser Adresse.</p></div>
       <div class="panel"><h3>Nachprüfbar</h3><p>Der <a href="https://github.com/OwnYourData/app-brutto_netto">Quellcode ist offen</a>. In den Entwicklerwerkzeugen Ihres Browsers (Reiter „Netzwerk“) sehen Sie, dass beim Rechnen keine Anfrage gestellt wird.</p></div>
     </div>
@@ -177,7 +178,8 @@
     <div>Ein Projekt von <a href="https://www.ownyourdata.eu/de/">OwnYourData</a>, gemeinnütziger Verein für Datensouveränität</div>
     <div class="legal">
       <a href="https://www.ownyourdata.eu/de/impressum/">Impressum</a>
-      <a href="https://www.ownyourdata.eu/de/datenschutz/">Datenschutz</a>
+      <a href="/datenschutz/">Datenschutz</a>
+      <a href="/datenschutz/#conversion" data-consent-settings hidden>Einwilligung ändern</a>
       <a href="https://github.com/OwnYourData/app-brutto_netto">Quellcode</a>
     </div>
   </div>

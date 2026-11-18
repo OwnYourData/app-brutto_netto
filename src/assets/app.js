@@ -231,7 +231,7 @@ function zeigeQuellen(werte) {
 
 let laufend = 0;
 
-async function aktualisiere() {
+async function aktualisiere(event) {
   const nummer = ++laufend;
   const jahr = Number($("jahr").value);
   let werte;
@@ -261,7 +261,7 @@ async function aktualisiere() {
       : berechne(werte, { ...eingaben, bruttoMonat: betrag });
     zeigeFehler("");
     zeige(werte, r, art, Number($("stunden").value) || 0);
-    document.dispatchEvent(new CustomEvent("bnr:berechnet"));
+    document.dispatchEvent(new CustomEvent("bnr:berechnet", { detail: { durchNutzer: Boolean(event && event.isTrusted) } }));
   } catch (e) {
     zeigeFehler(e.message);
   }

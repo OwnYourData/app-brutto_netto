@@ -9,7 +9,7 @@ Ein Projekt des Vereins [OwnYourData](https://www.ownyourdata.eu/).
 - Rechenkern (`src/kern/rechner.js`) mit Werten für 2026 und 2027 (`src/werte/`).
 - 2026 ist gegen den Brutto-Netto-Rechner des BMF abgeglichen: 20 Fälle, 175 Einzelwerte, keine Abweichung.
 - 2027 ist vorläufig: Die Sozialversicherungswerte 2027 sind noch nicht kundgemacht, und der BMF-Rechner 2027 ist noch nicht verfügbar (siehe `offen` in `src/werte/2027.json`).
-- Oberfläche auf Deutsch und Englisch (`src/index.html`, `src/en/index.html`); Einwilligung für das Conversion-Signal folgt.
+- Oberfläche auf Deutsch und Englisch (`src/index.html`, `src/en/index.html`), eigene Datenschutzerklärung (`src/datenschutz/`, `src/en/privacy/`), Einwilligung und Conversion-Messung (ausgeschaltet, bis eine Conversion-ID eingetragen ist).
 
 ## Was gerechnet wird
 
@@ -48,6 +48,14 @@ npm test
 ```
 
 Benötigt Node.js ab Version 20, sonst keine Abhängigkeiten.
+
+Der Nachweis, dass ohne Einwilligung keine Anfrage nach außen geht, läuft im echten Browser (siehe `docs/Consent.md`). Er braucht Playwright als Entwicklungsabhängigkeit; die ausgelieferte Seite enthält nichts davon:
+
+```
+npm install
+npx playwright install chromium
+npm run test:browser
+```
 
 ## Lizenz
 

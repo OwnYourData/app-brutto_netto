@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="/assets/style.css">
 <script src="/assets/theme.js"></script>
 <script type="module" src="/assets/app.js"></script>
+<script type="module" src="/assets/consent.js"></script>
 </head>
 <body>
 <a class="skip" href="#rechner">Skip to the calculator</a>
@@ -160,7 +161,7 @@
   <section id="warum" aria-labelledby="warum-titel">
     <h2 id="warum-titel">Why nothing is transmitted here</h2>
     <div class="facts">
-      <div class="panel"><h3>Everything stays in your browser</h3><p>The calculation runs entirely on your device. There is no server that receives your input, and nothing is stored.</p></div>
+      <div class="panel"><h3>Everything stays in your browser</h3><p>The calculation runs entirely on your device. There is no server that receives your input; it is not stored anywhere.</p></div>
       <div class="panel"><h3>No trackers</h3><p>No cookies, no analytics, no fonts or scripts from other servers. The page only loads files from this address.</p></div>
       <div class="panel"><h3>Verifiable</h3><p>The <a href="https://github.com/OwnYourData/app-brutto_netto">source code is open</a>. In your browser's developer tools (“Network” tab) you can see that calculating sends no request.</p></div>
     </div>
@@ -177,7 +178,8 @@
     <div>A project of <a href="https://www.ownyourdata.eu/en/">OwnYourData</a>, non-profit association for data sovereignty</div>
     <div class="legal">
       <a href="https://www.ownyourdata.eu/en/imprint/">Imprint</a>
-      <a href="https://www.ownyourdata.eu/de/datenschutz/">Privacy (German)</a>
+      <a href="/en/privacy/">Privacy</a>
+      <a href="/en/privacy/#conversion" data-consent-settings hidden>Consent settings</a>
       <a href="https://github.com/OwnYourData/app-brutto_netto">Source code</a>
     </div>
   </div>

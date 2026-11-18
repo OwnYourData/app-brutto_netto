@@ -155,3 +155,26 @@ footer .legal a { margin-right: 16px; }
 .mt { margin-top: 10px; }
 .mission { margin-top: 18px; max-width: 760px; }
 .table-wrap { overflow-x: auto; }
+/* Einwilligungs-Banner (nur wenn die Conversion-Messung eingeschaltet ist) */
+.consent { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; padding: 0 12px 12px; pointer-events: none; }
+.consent[hidden] { display: none; }
+.consent-box {
+  pointer-events: auto; max-width: 920px; margin: 0 auto; background: var(--surface); color: var(--text);
+  border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 6px 24px rgba(0,0,0,.18); padding: 18px 20px; font-size: 15px;
+}
+.consent h2 { font-size: 16px; margin: 0 0 6px; }
+.consent p { margin: 0 0 12px; color: var(--muted); }
+.consent .consent-current { font-size: 13px; margin-top: -4px; }
+.consent-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.consent-actions button {
+  flex: 1 1 160px; max-width: 240px; padding: 10px 18px; border-radius: 8px; cursor: pointer;
+  font: 600 15px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--surface);
+}
+.consent-actions button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+[data-consent-settings][hidden] { display: none; }
+/* Datenschutzerklärung */
+.doc { max-width: 760px; }
+.doc .updated { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
+.doc address { font-style: normal; }
+.doc ul { padding-left: 22px; }
