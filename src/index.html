@@ -132,7 +132,7 @@
       </fieldset>
     </form>
 
-    <section class="panel result-panel" aria-labelledby="ergebnis-titel">
+    <section class="panel result-panel" id="ergebnis" aria-labelledby="ergebnis-titel">
       <h2 id="ergebnis-titel" class="visually-hidden">Ergebnis</h2>
       <p class="netto-big" aria-live="polite"><span id="haupt-label">Netto pro Monat</span><strong id="haupt-wert">–</strong></p>
       <p class="notice" id="hinweis-vorlaeufig" hidden></p>
@@ -157,6 +157,8 @@
       <p class="disclaimer">Der Rechner ist eine Näherung und ersetzt keine Steuerberatung. Nicht berücksichtigt: Überstunden, Zulagen, Sachbezüge, Freibeträge, Sonderausgaben.</p>
     </section>
   </div>
+
+  <a class="mobil-netto" id="mobil-netto" href="#ergebnis" hidden><span id="mobil-label">Netto pro Monat</span> <strong id="mobil-wert"></strong> <span class="mobil-pfeil" aria-hidden="true">↓</span><span class="visually-hidden"> – zum Ergebnis</span></a>
 
   <section id="warum" aria-labelledby="warum-titel">
     <h2 id="warum-titel">Warum hier nichts übertragen wird</h2>

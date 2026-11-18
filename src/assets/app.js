@@ -5,7 +5,7 @@ import { berechne, bruttoAusNetto, erlaubteFamilienbonusAnteile } from "../kern/
 
 const EN = document.documentElement.lang.startsWith("en");
 const T = EN ? {
-  nettoMonat: "Net per month", bruttoMonat: "Gross per month",
+  nettoMonat: "Net per month", bruttoMonat: "Gross per month", netto13: "Net 13th salary", netto14: "Net 14th salary",
   vorlaeufig: (j) => `Provisional values for ${j}: the social insurance figures for ${j} have not been officially published yet.`,
   pendlerpauschale: "Commuter allowance per month", pendlereuro: "Commuter euro per month",
   familienbonus: "Family Bonus Plus used per month", verkehrsabsetzbetrag: "Transport tax credit per year",
@@ -19,7 +19,7 @@ const T = EN ? {
   geringfuegig: "Marginal employment: no employee social insurance contributions.",
   quelle: "Source", stand: "as of"
 } : {
-  nettoMonat: "Netto pro Monat", bruttoMonat: "Brutto pro Monat",
+  nettoMonat: "Netto pro Monat", bruttoMonat: "Brutto pro Monat", netto13: "Netto 13. Bezug", netto14: "Netto 14. Bezug",
   vorlaeufig: (j) => `Vorläufige Werte für ${j}: Die Sozialversicherungswerte ${j} sind noch nicht kundgemacht.`,
   pendlerpauschale: "Pendlerpauschale pro Monat", pendlereuro: "Pendlereuro pro Monat",
   familienbonus: "Familienbonus Plus genutzt pro Monat", verkehrsabsetzbetrag: "Verkehrsabsetzbetrag pro Jahr",
@@ -150,11 +150,12 @@ function setzeZeile(feld, werteJeSpalte) {
   werteJeSpalte.forEach((w, i) => { zellen[i].textContent = w === null ? "" : alsZahl(w); });
 }
 
-function detail(dl, text, wert) {
+function detail(dl, text, wert, klasse) {
   const dt = document.createElement("dt");
   dt.textContent = text;
   const dd = document.createElement("dd");
   dd.textContent = wert;
+  if (klasse) { dt.className = klasse; dd.className = klasse; }
   dl.append(dt, dd);
 }
 
@@ -169,9 +170,15 @@ function zeige(werte, r, eingegebenAls, stunden) {
   }
   $("haupt-label").textContent = eingegebenAls === "netto" ? T.bruttoMonat : T.nettoMonat;
   $("haupt-wert").textContent = alsEuro(eingegebenAls === "netto" ? m.brutto : m.netto);
+  $("mobil-label").textContent = $("haupt-label").textContent;
+  $("mobil-wert").textContent = $("haupt-wert").textContent;
 
   const dl = $("details");
   dl.replaceChildren();
+  if (mitSz) {
+    detail(dl, T.netto13, alsEuro(z13.netto), "nur-schmal");
+    detail(dl, T.netto14, alsEuro(z14.netto), "nur-schmal");
+  }
   if (m.details.geringfuegig) detail(dl, T.geringfuegig, "");
   if (m.details.pendlerpauschale > 0) {
     detail(dl, T.pendlerpauschale, alsEuro(m.details.pendlerpauschale));
@@ -277,6 +284,12 @@ async function start() {
     aktualisiere();
   });
   await aktualisiere();
+  // Auf schmalen Bildschirmen liegt das Ergebnis unter dem Formular: eine Leiste am unteren Rand
+  // zeigt das Netto, solange das Ergebnis nicht im Bild ist.
+  if ("IntersectionObserver" in window) {
+    const leiste = $("mobil-netto");
+    new IntersectionObserver(([eintrag]) => { leiste.hidden = eintrag.isIntersecting; }).observe($("ergebnis"));
+  }
 }
 
 if (typeof document !== "undefined" && document.getElementById("eingaben")) start();

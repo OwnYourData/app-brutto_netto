@@ -49,7 +49,7 @@ npm test
 
 Benötigt Node.js ab Version 20, sonst keine Abhängigkeiten.
 
-Der Nachweis, dass ohne Einwilligung keine Anfrage nach außen geht, läuft im echten Browser (siehe `docs/Consent.md`). Er braucht Playwright als Entwicklungsabhängigkeit; die ausgelieferte Seite enthält nichts davon:
+Der Nachweis, dass ohne Einwilligung keine Anfrage nach außen geht (siehe `docs/Consent.md`), und die Prüfung der Barrierefreiheit (axe-core, WCAG 2.1 AA, hell und dunkel) laufen im echten Browser. Sie brauchen Playwright und axe-core als Entwicklungsabhängigkeiten; die ausgelieferte Seite enthält nichts davon:
 
 ```
 npm install

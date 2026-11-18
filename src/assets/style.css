@@ -75,7 +75,7 @@ h3 { font-size: 17px; margin: 0 0 8px; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
 .result-panel { position: sticky; top: 16px; }
 @media (max-width: 860px) {
-  .calc { grid-template-columns: 1fr; }
+  .calc { grid-template-columns: minmax(0, 1fr); }
   .result-panel { position: static; }
 }
 
@@ -174,7 +174,33 @@ footer .legal a { margin-right: 16px; }
 .consent-actions button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 [data-consent-settings][hidden] { display: none; }
 /* Datenschutzerklärung */
-.doc { max-width: 760px; }
+.doc { max-width: 760px; overflow-wrap: anywhere; }
 .doc .updated { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
 .doc address { font-style: normal; }
 .doc ul { padding-left: 22px; }
+/* Mitlaufende Netto-Leiste auf schmalen Bildschirmen */
+.mobil-netto { display: none; }
+@media (max-width: 860px) {
+  .mobil-netto {
+    position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 40;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    padding: 12px 16px; border-radius: var(--radius); text-decoration: none;
+    background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: 0 6px 24px rgba(0,0,0,.18);
+  }
+  .mobil-netto[hidden] { display: none; }
+  .mobil-netto span:first-child { color: var(--muted); font-size: 14px; }
+  .mobil-netto strong { font-size: 20px; margin-left: auto; }
+  .mobil-netto .mobil-pfeil { color: var(--accent); }
+  footer { padding-bottom: 96px; }
+}
+/* Schmale Bildschirme: Formularelemente dürfen schmäler werden als ihr längster Eintrag */
+.field, .row > *, .kind > * { min-width: 0; }
+input, select { max-width: 100%; min-width: 0; }
+@media (max-width: 360px) { .brand span { display: none; } }
+/* Sehr schmale Bildschirme: Tabelle nur mit Monat und Jahr; 13. und 14. Bezug stehen darunter. */
+.nur-schmal { display: none; }
+@media (max-width: 480px) {
+  table.result .sz { display: none; }
+  dl.details .nur-schmal { display: block; }
+}
+@media (max-width: 360px) { .panel { padding: 14px; } .wrap { padding: 0 14px; } }

@@ -132,7 +132,7 @@
       </fieldset>
     </form>
 
-    <section class="panel result-panel" aria-labelledby="ergebnis-titel">
+    <section class="panel result-panel" id="ergebnis" aria-labelledby="ergebnis-titel">
       <h2 id="ergebnis-titel" class="visually-hidden">Result</h2>
       <p class="netto-big" aria-live="polite"><span id="haupt-label">Net per month</span><strong id="haupt-wert">–</strong></p>
       <p class="notice" id="hinweis-vorlaeufig" hidden></p>
@@ -157,6 +157,8 @@
       <p class="disclaimer">This calculator is an approximation and does not replace tax advice. Not included: overtime, allowances, benefits in kind, tax exemptions, special expenses.</p>
     </section>
   </div>
+
+  <a class="mobil-netto" id="mobil-netto" href="#ergebnis" hidden><span id="mobil-label">Net per month</span> <strong id="mobil-wert"></strong> <span class="mobil-pfeil" aria-hidden="true">↓</span><span class="visually-hidden"> – to the result</span></a>
 
   <section id="warum" aria-labelledby="warum-titel">
     <h2 id="warum-titel">Why nothing is transmitted here</h2>
