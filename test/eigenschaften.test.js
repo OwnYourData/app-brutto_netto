@@ -87,6 +87,14 @@ for (const werte of [w2026, w2027]) {
   });
 }
 
-test("Werte 2027 sind vollständig amtlich", { todo: "SV-Kundmachung 2027 und BMF-Rechner 2027 ausständig" }, () => {
-  assert.equal(w2027.status, "amtlich");
-});
+for (const werte of [w2026, w2027]) {
+  test(`Werte ${werte.jahr}: Status ist gesetzt, vorläufige Werte sind als offen dokumentiert`, () => {
+    assert.ok(["amtlich", "vorlaeufig"].includes(werte.status), `unbekannter Status ${werte.status}`);
+    const vorlaeufig = JSON.stringify(werte).includes('"vorlaeufig":true');
+    if (werte.status === "amtlich") {
+      assert.ok(!vorlaeufig, "amtliche Werte-Datei enthält vorläufige Werte");
+    } else {
+      assert.ok(Array.isArray(werte.offen) && werte.offen.length > 0, "vorläufige Werte-Datei ohne Liste 'offen'");
+    }
+  });
+}

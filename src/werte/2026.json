@@ -235,6 +235,28 @@
       ],
       "quelle": "estg",
       "paragraf": "§ 33 Abs. 3a Z 2"
+    },
+    "zuschlag_verkehrsabsetzbetrag": {
+      "wert": 80400,
+      "einschleifen_von": 1976100,
+      "einschleifen_bis": 3025900,
+      "quelle": "iav2026",
+      "paragraf": "§ 33 Abs. 5 Z 3",
+      "hinweis": "nur in der Veranlagung"
+    },
+    "sv_rueckerstattung": {
+      "satz": 5500,
+      "hoechstbetrag": 49600,
+      "hoechstbetrag_pendler": 75000,
+      "quelle": "iav2026",
+      "paragraf": "§ 33 Abs. 8 Z 2",
+      "hinweis": "SV-Bonus: Höchstbetrag erhöht sich um den Zuschlag zum Verkehrsabsetzbetrag; Erstattung mit der Einkommensteuer unter null begrenzt (LStR 2002 Rz 811)"
+    },
+    "kindermehrbetrag_je_kind": {
+      "wert": 70000,
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 7",
+      "hinweis": "Differenz zwischen 700 Euro je Kind und der Tarifsteuer (LStR 2002 Rz 810a); nicht inflationsangepasst"
     }
   }
 }

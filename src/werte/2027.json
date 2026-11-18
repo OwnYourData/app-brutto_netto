@@ -261,6 +261,28 @@
       "quelle": "bbg2027",
       "paragraf": "§ 33 Abs. 3a Z 2",
       "hinweis": "Ab dem vollendeten 4. Lebensjahr nur 75:25 oder 50:50, außer bei erhöhter Familienbeihilfe."
+    },
+    "zuschlag_verkehrsabsetzbetrag": {
+      "wert": 82300,
+      "einschleifen_von": 2020900,
+      "einschleifen_bis": 3094500,
+      "quelle": "iav2027",
+      "paragraf": "§ 33 Abs. 5 Z 3",
+      "hinweis": "nur in der Veranlagung"
+    },
+    "sv_rueckerstattung": {
+      "satz": 5500,
+      "hoechstbetrag": 50800,
+      "hoechstbetrag_pendler": 76700,
+      "quelle": "iav2027",
+      "paragraf": "§ 33 Abs. 8 Z 2",
+      "hinweis": "SV-Bonus: Höchstbetrag erhöht sich um den Zuschlag zum Verkehrsabsetzbetrag; Erstattung mit der Einkommensteuer unter null begrenzt (LStR 2002 Rz 811)"
+    },
+    "kindermehrbetrag_je_kind": {
+      "wert": 70000,
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 7",
+      "hinweis": "Differenz zwischen 700 Euro je Kind und der Tarifsteuer (LStR 2002 Rz 810a); nicht inflationsangepasst"
     }
   },
   "offen": [

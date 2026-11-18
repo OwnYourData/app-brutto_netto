@@ -314,7 +314,71 @@ export function berechne(werte, eingaben) {
     monat,
     bezug13: sonderzahlungen[0] ?? null,
     bezug14: sonderzahlungen[1] ?? null,
-    jahressumme: jahr
+    jahressumme: jahr,
+    veranlagung: veranlagung(werte, { bmgMonat, svMonat: sv, lohnsteuerMonat: lst.lohnsteuer, pp, absetz, eingaben })
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Arbeitnehmerveranlagung (Schätzung)
+// ---------------------------------------------------------------------------
+
+export function zuschlagVerkehrsabsetzbetragJahr(werte, einkommenJahr) {
+  const z = werte.lohnsteuer.zuschlag_verkehrsabsetzbetrag;
+  if (einkommenJahr <= z.einschleifen_von) return z.wert;
+  if (einkommenJahr >= z.einschleifen_bis) return 0;
+  return z.wert - rundeDiv(z.wert * (einkommenJahr - z.einschleifen_von), z.einschleifen_bis - z.einschleifen_von);
+}
+
+/**
+ * Was die Arbeitnehmerveranlagung gegenüber der laufenden Lohnverrechnung voraussichtlich zusätzlich
+ * bringt, wenn das ganze Jahr gleichbleibend bezogen wird und es keine weiteren Einkünfte gibt:
+ * Zuschlag zum Verkehrsabsetzbetrag, Gutschrift von Alleinverdiener-/Alleinerzieherabsetzbetrag und
+ * SV-Rückerstattung (§ 33 Abs. 8 Z 1 und 2, begrenzt mit der Einkommensteuer unter null) sowie
+ * Kindermehrbetrag (§ 33 Abs. 7). Die sonstigen Bezüge bleiben mit ihren festen Steuersätzen außer Ansatz.
+ * Nicht berücksichtigt: weitere Werbungskosten, Sonderausgaben, außergewöhnliche Belastungen,
+ * Kindermehrbetrag über die Partnerschaftsvariante.
+ */
+function veranlagung(werte, r) {
+  const ls = werte.lohnsteuer;
+  const einkommen = Math.max(0, r.bmgMonat) * MONATE;
+  const lohnsteuerLaufendJahr = r.lohnsteuerMonat * MONATE;
+  const tarif = tarifsteuerSkaliert(werte, einkommen);
+  const tarifsteuer = rundeDiv(tarif, SATZ_NENNER);
+  const fabo = Math.min(tarifsteuer, r.absetz.familienbonusMonat * MONATE);
+  const vab = verkehrsabsetzbetragJahr(werte, einkommen, r.absetz.mitPendlerpauschale);
+  const zuschlag = zuschlagVerkehrsabsetzbetragJahr(werte, einkommen);
+  const absetzbetraege = vab + zuschlag + r.absetz.alleinverdienerJahr + r.absetz.pendlereuroJahr;
+  const steuer = tarifsteuer - fabo - absetzbetraege;
+
+  let gutschrift = 0;
+  if (steuer < 0) {
+    const rueck = ls.sv_rueckerstattung;
+    const svJahr = r.svMonat * MONATE;
+    const hoechst = (r.pp > 0 ? rueck.hoechstbetrag_pendler : rueck.hoechstbetrag) + zuschlag;
+    const svRueck = Math.min(rundeDiv(svJahr * rueck.satz, SATZ_NENNER), hoechst);
+    gutschrift = Math.min(-steuer, r.absetz.alleinverdienerJahr + svRueck);
+  }
+
+  const kinder = r.eingaben.alleinverdienerKinder ?? 0;
+  const kindermehrbetrag = kinder > 0 && einkommen > 0
+    ? Math.max(0, wert(ls.kindermehrbetrag_je_kind) * kinder - tarifsteuer)
+    : 0;
+
+  const einkommensteuer = Math.max(0, steuer);
+  const differenzLohnsteuer = lohnsteuerLaufendJahr - einkommensteuer;
+  return {
+    einkommen,
+    tarifsteuer,
+    familienbonus: fabo,
+    verkehrsabsetzbetrag: vab,
+    zuschlagVerkehrsabsetzbetrag: zuschlag,
+    einkommensteuer,
+    lohnsteuerLaufendJahr,
+    gutschrift,
+    kindermehrbetrag,
+    // positiv: voraussichtliche Erstattung; negativ: voraussichtliche Nachzahlung
+    ergebnis: differenzLohnsteuer + gutschrift + kindermehrbetrag
   };
 }
 

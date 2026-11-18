@@ -22,6 +22,8 @@ Laufende Lohnverrechnung für Angestellte und Arbeiter:innen, wie sie der BMF-Re
 - Familienbonus Plus (inkl. Aufteilungsregeln ab 2027), Alleinverdiener-/Alleinerzieherabsetzbetrag
 - Umkehrrechnung Netto → Brutto
 
+Dazu eine Schätzung, was die Arbeitnehmerveranlagung voraussichtlich zusätzlich bringt (gleichbleibender Bezug, keine weiteren Einkünfte): Zuschlag zum Verkehrsabsetzbetrag, SV-Rückerstattung samt SV-Bonus, Gutschrift von Alleinverdiener-/Alleinerzieherabsetzbetrag und Kindermehrbetrag. Der BMF-Brutto-Netto-Rechner rechnet diesen Teil nicht; die Tests in `test/veranlagung.test.js` sind deshalb von Hand aus EStG 1988 und LStR 2002 hergeleitet.
+
 Der Rechner ist eine Näherung und ersetzt keine Steuerberatung.
 
 ## Werte austauschen
