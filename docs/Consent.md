@@ -14,7 +14,7 @@ Der Rechner kann mit Einwilligung messen, ob ein Besuch, der mit einer Google-Ad
 
 Ein Label ist der Teil von `send_to` nach dem Schrägstrich (`AW-…/<label>`). Eine Conversion mit fehlendem oder ungültigem Label wird nicht gemessen, die anderen schon. Enhanced Conversions werden nicht verwendet.
 
-Mit eingetragener ID muss der Container mit `--build-arg CSP=ads` gebaut werden. Die Variante erlaubt zusätzlich die Adressen des Google-Ads-Tags (`nginx/security-headers-ads.conf`). Mit der strikten Standard-CSP sperrt der Browser das Tag auch nach Zustimmung; das ist die Sicherung gegen eine Fehlkonfiguration.
+Eingetragen ist das Google-Ads-Konto des Vereins (`AW-894120911`) mit den Conversion-Aktionen „Brutto/Netto-Rechner: Quellcode auf GitHub“ (primär, Kategorie Outbound click) und „Brutto/Netto-Rechner: Berechnung“ (sekundär, Kategorie Request quote), je Wert 1, Zählung „One“. Der Container wird deshalb standardmäßig mit `CSP=ads` gebaut. Die Variante erlaubt zusätzlich die Adressen des Google-Ads-Tags (`nginx/security-headers-ads.conf`). Mit der strikten Variante (`--build-arg CSP=strict`) sperrt der Browser das Tag auch nach Zustimmung; das ist die Sicherung gegen eine Fehlkonfiguration.
 
 ## Verhalten
 
@@ -28,6 +28,7 @@ Mit eingetragener ID muss der Container mit `--build-arg CSP=ads` gebaut werden.
 `npm run test:browser` prüft im echten Browser (Chromium über Playwright), mit denselben Sicherheits-Headern wie nginx:
 
 1. Ohne ID: auf allen Seiten kein Banner und keine einzige Anfrage nach außen.
+7. Mit der ausgelieferten Konfiguration: Banner auf allen Seiten, vor der Zustimmung keine Anfrage an Google oder sonst nach außen.
 2. Mit ID, ohne Entscheidung: Banner, gleich große Knöpfe, keine Anfrage an Google.
 3. Abgelehnt: keine Anfrage an Google, auch nach neuem Laden.
 4. Zugestimmt: `gtag.js` wird genau einmal geladen, Conversions `berechnung` und `github` werden gemeldet, der eingegebene Betrag steht in keinem Ereignis und keiner Anfrage.

@@ -32,7 +32,7 @@ Jedes Jahr hat eine eigene Datei `src/werte/<jahr>.json`. Jeder Wert nennt seine
 
 ## Lokal starten
 
-Die Seite besteht nur aus statischen Dateien in `src/`. Der Container liefert sie mit nginx aus, ohne Zugriffsprotokoll und mit einer Content-Security-Policy, die nur Dateien dieser Adresse erlaubt:
+Die Seite besteht nur aus statischen Dateien in `src/`. Der Container liefert sie mit nginx aus, ohne Zugriffsprotokoll und mit einer Content-Security-Policy, die außer den eigenen Dateien nur das Google-Ads-Tag erlaubt; geladen wird es erst nach Zustimmung (`docs/Consent.md`):
 
 ```
 docker build -t brutto-netto-rechner:dev .
@@ -40,6 +40,10 @@ docker run -d --rm --name brutto-netto -p 8080:8080 brutto-netto-rechner:dev
 ```
 
 Danach unter http://localhost:8080 (Deutsch) bzw. http://localhost:8080/en/ (Englisch).
+
+## Deployment
+
+Auf dem PACE-Cluster im Namespace `brutto-netto`, siehe `k8s/README.md`.
 
 ## Tests
 

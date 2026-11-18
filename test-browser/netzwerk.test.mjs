@@ -10,6 +10,7 @@ import { chromium } from "playwright";
 import { starteServer } from "./server.mjs";
 
 const TEST_CONFIG = { id: "AW-123456789", conversions: { github: "TestGithub", berechnung: "TestBerechnung" } };
+const AUS = { id: "", conversions: {} };
 const BETRAG = "4321";
 const GOOGLE = /(^|\.)(google|googletagmanager|googleadservices|doubleclick|gstatic)\.[a-z.]+$/;
 
@@ -61,7 +62,7 @@ const googleAnfragen = (aussen) => aussen.filter((a) => GOOGLE.test(a.host));
 const sonstige = (aussen) => aussen.filter((a) => !GOOGLE.test(a.host));
 
 test("Ohne Conversion-ID: kein Banner, keine einzige Anfrage nach außen (alle Seiten)", async () => {
-  const server = await starteServer();
+  const server = await starteServer({ consentConfig: AUS });
   try {
     for (const pfad of ["/", "/en/", "/datenschutz/", "/en/privacy/"]) {
       const { context, page, aussen, cspFehler } = await oeffne(server, pfad);
@@ -151,5 +152,19 @@ test("Strikte CSP sperrt Google auch bei eingetragener ID (Sicherung gegen Fehlk
     assert.deepEqual(googleAnfragen(aussen), [], "Anfrage an Google trotz strikter CSP");
     assert.ok(cspFehler.length > 0, "CSP hätte das Tag sperren müssen");
     await context.close();
+  } finally { await server.close(); }
+});
+
+test("Ausgelieferte Konfiguration: gültige ID und Labels, vor der Zustimmung keine Anfrage an Google", async () => {
+  const server = await starteServer({ csp: "ads" });
+  try {
+    for (const pfad of ["/", "/en/", "/datenschutz/", "/en/privacy/"]) {
+      const { context, page, aussen } = await oeffne(server, pfad);
+      assert.equal(await page.locator(".consent").isVisible(), true, `${pfad}: kein Banner trotz eingetragener ID`);
+      if (pfad === "/" || pfad === "/en/") await benutze(page);
+      assert.deepEqual(googleAnfragen(aussen), [], `${pfad}: Anfrage an Google vor der Zustimmung`);
+      assert.deepEqual(sonstige(aussen), [], `${pfad}: Anfrage nach außen`);
+      await context.close();
+    }
   } finally { await server.close(); }
 });

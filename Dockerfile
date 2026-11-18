@@ -1,8 +1,9 @@
 # Kleiner, unprivilegierter nginx, der nur die statischen Dateien aus src/ ausliefert.
-# CSP=strict (Standard): nur eigene Dateien. CSP=ads: zusätzlich die Adressen des Google-Ads-Tags,
-# nötig, sobald in src/assets/consent-config.js eine Conversion-ID eingetragen ist.
+# CSP=ads (Standard, weil in src/assets/consent-config.js eine Conversion-ID eingetragen ist):
+# erlaubt zusätzlich die Adressen des Google-Ads-Tags, geladen werden sie erst nach Zustimmung.
+# CSP=strict: nur eigene Dateien; das Google-Tag wird dann auch nach Zustimmung gesperrt.
 FROM nginxinc/nginx-unprivileged:stable-alpine
-ARG CSP=strict
+ARG CSP=ads
 USER root
 COPY nginx/security-headers.conf nginx/security-headers-ads.conf /tmp/csp/
 RUN if [ "$CSP" = "ads" ]; then cp /tmp/csp/security-headers-ads.conf /etc/nginx/security-headers.conf; \

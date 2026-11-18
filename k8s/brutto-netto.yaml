@@ -1,0 +1,131 @@
+# Brutto/Netto-Rechner auf dem PACE-Cluster (Namespace brutto-netto).
+# Angewendet wird die von k8s/deploy.sh erzeugte Fassung mit Image per Digest (tmp/), nicht diese Datei.
+#
+# Datensouveränität im Betrieb:
+#   - Der Container protokolliert keine Zugriffe (nginx access_log off).
+#   - Der Ingress protokolliert für diesen Host ebenfalls keine Zugriffe
+#     (nginx.ingress.kubernetes.io/enable-access-log: "false").
+#   - Keine Datenbank, keine Secrets außer dem Pull-Secret für das Image.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: brutto-netto
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brutto-netto
+  namespace: brutto-netto
+  labels:
+    app: brutto-netto
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: brutto-netto
+  template:
+    metadata:
+      labels:
+        app: brutto-netto
+    spec:
+      imagePullSecrets:
+        - name: ghcr-registry-secret
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: web
+          image: ghcr.io/oyd-private/brutto-netto-rechner:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 16Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: brutto-netto
+  namespace: brutto-netto
+  labels:
+    app: brutto-netto
+spec:
+  type: ClusterIP
+  selector:
+    app: brutto-netto
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: brutto-netto
+  namespace: brutto-netto
+  annotations:
+    nginx.ingress.kubernetes.io/enable-access-log: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - brutto-netto.ownyourdata.eu
+      secretName: brutto-netto-tls
+  rules:
+    - host: brutto-netto.ownyourdata.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: brutto-netto
+                port:
+                  number: 80
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: brutto-netto-tls
+  namespace: brutto-netto
+spec:
+  secretName: brutto-netto-tls
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  dnsNames:
+    - brutto-netto.ownyourdata.eu
+  privateKey:
+    rotationPolicy: Always

@@ -35,7 +35,7 @@ async function pruefe(server, pfad, farbschema, vorbereitung) {
 
 for (const farbschema of ["light", "dark"]) {
   test(`WCAG 2.1 AA, ${farbschema === "light" ? "hell" : "dunkel"}: alle Seiten ohne Verletzung`, async () => {
-    const server = await starteServer();
+    const server = await starteServer({ consentConfig: { id: "", conversions: {} } });
     try {
       for (const pfad of SEITEN) {
         const verletzungen = await pruefe(server, pfad, farbschema, async (page) => {
