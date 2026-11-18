@@ -1,0 +1,10 @@
+Brutto/Netto-Rechner Österreich
+Copyright 2026 OwnYourData
+
+The source code is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The explanatory texts shown on the page are licensed under the Creative Commons
+Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/).
+
+The tax and social insurance values in src/werte/ are taken from official
+Austrian sources (Bundesgesetzblatt, RIS, BMF, ÖGK); each value names its source.

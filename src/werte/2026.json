@@ -1,0 +1,240 @@
+{
+  "jahr": 2026,
+  "status": "amtlich",
+  "hinweis": "Beträge in Cent, Sätze in Hundertstelprozent (1807 = 18,07 %). Jeder Wert nennt seine Quelle (Schlüssel in 'quellen').",
+  "quellen": {
+    "estg": {
+      "titel": "Einkommensteuergesetz 1988 (EStG 1988), Fassung für 2026",
+      "fundstelle": "BGBl. Nr. 400/1988 idF BGBl. I Nr. 97/2025",
+      "url": "https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10004570",
+      "stand": "2026-11-18"
+    },
+    "iav2026": {
+      "titel": "Inflationsanpassungsverordnung 2026",
+      "fundstelle": "BGBl. II Nr. 191/2025",
+      "url": "https://ris.bka.gv.at/eli/bgbl/II/2025/191",
+      "stand": "2026-11-18"
+    },
+    "aufwertung2026": {
+      "titel": "Kundmachung Aufwertung und Anpassung nach dem ASVG für das Kalenderjahr 2026",
+      "fundstelle": "BGBl. II Nr. 263/2025",
+      "url": "https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2025_II_263/BGBLA_2025_II_263.pdf",
+      "stand": "2026-11-18"
+    },
+    "asvg": {
+      "titel": "Allgemeines Sozialversicherungsgesetz (ASVG) § 51; Arbeitsmarktpolitik-Finanzierungsgesetz (AMPFG) § 2a; Arbeiterkammergesetz (AK-Umlage); Wohnbauförderungsbeitragsgesetz 2018",
+      "fundstelle": "RIS, Fassung für 2026",
+      "url": "https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10008147",
+      "stand": "2026-11-18"
+    },
+    "wf2026": {
+      "titel": "BMF-Information Wohnbauförderungsbeitrag 2026 (Wien: LGBl. Nr. 73/2025)",
+      "fundstelle": "BMF-IV/7, GZ 2025-1.063.873 vom 29.12.2025",
+      "url": "https://findok.bmf.gv.at/findok/iwg/84/84070/84070.1.pdf",
+      "stand": "2026-11-18"
+    }
+  },
+  "sv": {
+    "geringfuegigkeitsgrenze_monat": {
+      "wert": 55110,
+      "quelle": "aufwertung2026"
+    },
+    "hoechstbeitragsgrundlage_monat": {
+      "wert": 693000,
+      "quelle": "aufwertung2026"
+    },
+    "hoechstbeitragsgrundlage_sonderzahlungen_jahr": {
+      "wert": 1386000,
+      "quelle": "aufwertung2026"
+    },
+    "saetze_dn": {
+      "pensionsversicherung": {
+        "wert": 1025,
+        "quelle": "asvg"
+      },
+      "krankenversicherung": {
+        "wert": 387,
+        "quelle": "asvg"
+      },
+      "arbeiterkammerumlage": {
+        "wert": 50,
+        "quelle": "asvg",
+        "sonderzahlungen": false
+      },
+      "wohnbaufoerderung": {
+        "wert": 50,
+        "wien": 75,
+        "quelle": "wf2026",
+        "sonderzahlungen": false
+      },
+      "arbeitslosenversicherung": {
+        "wert": 295,
+        "quelle": "asvg"
+      }
+    },
+    "av_staffel": {
+      "quelle": "asvg",
+      "alle": [
+        {
+          "bis": 222500,
+          "satz": 0
+        },
+        {
+          "bis": 242700,
+          "satz": 100
+        },
+        {
+          "bis": 263000,
+          "satz": 200
+        }
+      ]
+    }
+  },
+  "lohnsteuer": {
+    "tarif": {
+      "quelle": "iav2026",
+      "stufen": [
+        {
+          "bis": 1353900,
+          "satz": 0
+        },
+        {
+          "bis": 2199200,
+          "satz": 2000
+        },
+        {
+          "bis": 3645800,
+          "satz": 3000
+        },
+        {
+          "bis": 7036500,
+          "satz": 4000
+        },
+        {
+          "bis": 10485900,
+          "satz": 4800
+        },
+        {
+          "bis": 100000000,
+          "satz": 5000
+        },
+        {
+          "bis": null,
+          "satz": 5500
+        }
+      ]
+    },
+    "werbungskostenpauschale_jahr": {
+      "wert": 13200,
+      "quelle": "estg",
+      "paragraf": "§ 16 Abs. 3"
+    },
+    "verkehrsabsetzbetrag_jahr": {
+      "wert": 49600,
+      "quelle": "iav2026",
+      "paragraf": "§ 33 Abs. 5 Z 1"
+    },
+    "erhoehter_verkehrsabsetzbetrag": {
+      "wert": 85300,
+      "einschleifen_von": 1506900,
+      "einschleifen_bis": 1605600,
+      "quelle": "iav2026",
+      "paragraf": "§ 33 Abs. 5 Z 2"
+    },
+    "alleinverdiener_jahr": {
+      "ein_kind": 61200,
+      "zwei_kinder": 82800,
+      "je_weiteres_kind": 27300,
+      "quelle": "iav2026",
+      "paragraf": "§ 33 Abs. 4 Z 1 und 2"
+    },
+    "familienbonus_monat": {
+      "unter18": 16668,
+      "ab18": 5834,
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 3a"
+    },
+    "pendlerpauschale_monat": {
+      "quelle": "estg",
+      "paragraf": "§ 16 Abs. 1 Z 6",
+      "hinweis": "Entfernung in km der einfachen Fahrtstrecke; 'bis_km' gilt einschließlich.",
+      "klein": {
+        "ab_km": 20,
+        "stufen": [
+          {
+            "bis_km": 40,
+            "wert": 5800
+          },
+          {
+            "bis_km": 60,
+            "wert": 11300
+          },
+          {
+            "bis_km": null,
+            "wert": 16800
+          }
+        ]
+      },
+      "gross": {
+        "ab_km": 2,
+        "stufen": [
+          {
+            "bis_km": 20,
+            "wert": 3100
+          },
+          {
+            "bis_km": 40,
+            "wert": 12300
+          },
+          {
+            "bis_km": 60,
+            "wert": 21400
+          },
+          {
+            "bis_km": null,
+            "wert": 30600
+          }
+        ]
+      }
+    },
+    "pendlereuro_je_km_jahr": {
+      "wert": 600,
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 5 Z 4"
+    },
+    "sonstige_bezuege": {
+      "quelle": "estg",
+      "paragraf": "§ 67 Abs. 1 und 2",
+      "freigrenze_jahressechstel": {
+        "wert": 261500,
+        "quelle": "iav2026"
+      },
+      "stufen": [
+        {
+          "bis": 62000,
+          "satz": 0
+        },
+        {
+          "bis": 2500000,
+          "satz": 600
+        },
+        {
+          "bis": 5000000,
+          "satz": 2700
+        },
+        {
+          "bis": 8333300,
+          "satz": 3575
+        }
+      ]
+    },
+    "familienbonus_aufteilung": {
+      "anteile": [
+        100,
+        50
+      ],
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 3a Z 2"
+    }
+  }
+}

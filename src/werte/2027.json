@@ -1,0 +1,271 @@
+{
+  "jahr": 2027,
+  "status": "vorlaeufig",
+  "hinweis": "Beträge in Cent, Sätze in Hundertstelprozent (1807 = 18,07 %). Jeder Wert nennt seine Quelle (Schlüssel in 'quellen').",
+  "quellen": {
+    "estg": {
+      "titel": "Einkommensteuergesetz 1988 (EStG 1988), Fassung für 2027",
+      "fundstelle": "BGBl. Nr. 400/1988 idF BGBl. I Nr. 62/2026 (Budgetbegleitgesetz 2027-2028)",
+      "url": "https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10004570",
+      "stand": "2026-11-18"
+    },
+    "asvg": {
+      "titel": "Allgemeines Sozialversicherungsgesetz (ASVG) § 51; Arbeitsmarktpolitik-Finanzierungsgesetz (AMPFG) § 2a; Arbeiterkammergesetz (AK-Umlage); Wohnbauförderungsbeitragsgesetz 2018",
+      "fundstelle": "RIS, Fassung für 2027",
+      "url": "https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10008147",
+      "stand": "2026-11-18"
+    },
+    "wf2026": {
+      "titel": "BMF-Information Wohnbauförderungsbeitrag 2026 (Wien: LGBl. Nr. 73/2025, unbefristet; für 2027 Bestätigung durch die BMF-Information 2027 abwarten)",
+      "fundstelle": "BMF-IV/7, GZ 2025-1.063.873 vom 29.12.2025",
+      "url": "https://findok.bmf.gv.at/findok/iwg/84/84070/84070.1.pdf",
+      "stand": "2026-11-18"
+    },
+    "iav2027": {
+      "titel": "Inflationsanpassungsverordnung 2027",
+      "fundstelle": "BGBl. II Nr. 260/2026",
+      "url": "https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2026_II_260/BGBLA_2026_II_260.html",
+      "stand": "2026-11-18"
+    },
+    "bbg2027": {
+      "titel": "Budgetbegleitgesetz 2027-2028 (u. a. AMPFG § 2a: AV-Sätze bei geringem Entgelt; ASVG § 824: Geringfügigkeitsgrenze 2027 unverändert; EStG § 33 Abs. 3a: Aufteilung Familienbonus Plus)",
+      "fundstelle": "BGBl. I Nr. 62/2026",
+      "url": "https://www.ris.bka.gv.at/eli/bgbl/I/2026/62",
+      "stand": "2026-11-18"
+    },
+    "aufwertung2027": {
+      "titel": "Kundmachung Aufwertung und Anpassung nach dem ASVG für das Kalenderjahr 2027",
+      "fundstelle": "noch nicht kundgemacht",
+      "url": null,
+      "stand": "2026-11-18"
+    }
+  },
+  "sv": {
+    "geringfuegigkeitsgrenze_monat": {
+      "wert": 55110,
+      "quelle": "bbg2027"
+    },
+    "hoechstbeitragsgrundlage_monat": {
+      "wert": 741000,
+      "quelle": "aufwertung2027",
+      "vorlaeufig": true
+    },
+    "hoechstbeitragsgrundlage_sonderzahlungen_jahr": {
+      "wert": 1482000,
+      "quelle": "aufwertung2027",
+      "vorlaeufig": true
+    },
+    "saetze_dn": {
+      "pensionsversicherung": {
+        "wert": 1025,
+        "quelle": "asvg"
+      },
+      "krankenversicherung": {
+        "wert": 387,
+        "quelle": "asvg"
+      },
+      "arbeiterkammerumlage": {
+        "wert": 50,
+        "quelle": "asvg",
+        "sonderzahlungen": false
+      },
+      "wohnbaufoerderung": {
+        "wert": 50,
+        "wien": 75,
+        "quelle": "wf2026",
+        "sonderzahlungen": false
+      },
+      "arbeitslosenversicherung": {
+        "wert": 295,
+        "quelle": "asvg"
+      }
+    },
+    "av_staffel": {
+      "quelle": "bbg2027",
+      "grenzen_quelle": "aufwertung2027",
+      "vorlaeufig": true,
+      "beginn_vor": [
+        {
+          "bis": 232700,
+          "satz": 50
+        },
+        {
+          "bis": 253900,
+          "satz": 150
+        },
+        {
+          "bis": 275100,
+          "satz": 250
+        }
+      ],
+      "beginn_ab": [
+        {
+          "bis": 232700,
+          "satz": 100
+        },
+        {
+          "bis": 253900,
+          "satz": 200
+        }
+      ]
+    }
+  },
+  "lohnsteuer": {
+    "tarif": {
+      "quelle": "iav2027",
+      "stufen": [
+        {
+          "bis": 1384600,
+          "satz": 0
+        },
+        {
+          "bis": 2249100,
+          "satz": 2000
+        },
+        {
+          "bis": 3728500,
+          "satz": 3000
+        },
+        {
+          "bis": 7196000,
+          "satz": 4000
+        },
+        {
+          "bis": 10723600,
+          "satz": 4800
+        },
+        {
+          "bis": 100000000,
+          "satz": 5000
+        },
+        {
+          "bis": null,
+          "satz": 5500
+        }
+      ]
+    },
+    "werbungskostenpauschale_jahr": {
+      "wert": 13200,
+      "quelle": "estg",
+      "paragraf": "§ 16 Abs. 3"
+    },
+    "verkehrsabsetzbetrag_jahr": {
+      "wert": 50800,
+      "quelle": "iav2027",
+      "paragraf": "§ 33 Abs. 5 Z 1"
+    },
+    "erhoehter_verkehrsabsetzbetrag": {
+      "wert": 87300,
+      "einschleifen_von": 1541100,
+      "einschleifen_bis": 1642000,
+      "quelle": "iav2027",
+      "paragraf": "§ 33 Abs. 5 Z 2"
+    },
+    "alleinverdiener_jahr": {
+      "ein_kind": 62600,
+      "zwei_kinder": 84700,
+      "je_weiteres_kind": 28000,
+      "quelle": "iav2027",
+      "paragraf": "§ 33 Abs. 4 Z 1 und 2"
+    },
+    "familienbonus_monat": {
+      "unter18": 16668,
+      "ab18": 5834,
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 3a"
+    },
+    "pendlerpauschale_monat": {
+      "quelle": "estg",
+      "paragraf": "§ 16 Abs. 1 Z 6",
+      "hinweis": "Entfernung in km der einfachen Fahrtstrecke; 'bis_km' gilt einschließlich.",
+      "klein": {
+        "ab_km": 20,
+        "stufen": [
+          {
+            "bis_km": 40,
+            "wert": 5800
+          },
+          {
+            "bis_km": 60,
+            "wert": 11300
+          },
+          {
+            "bis_km": null,
+            "wert": 16800
+          }
+        ]
+      },
+      "gross": {
+        "ab_km": 2,
+        "stufen": [
+          {
+            "bis_km": 20,
+            "wert": 3100
+          },
+          {
+            "bis_km": 40,
+            "wert": 12300
+          },
+          {
+            "bis_km": 60,
+            "wert": 21400
+          },
+          {
+            "bis_km": null,
+            "wert": 30600
+          }
+        ]
+      }
+    },
+    "pendlereuro_je_km_jahr": {
+      "wert": 600,
+      "quelle": "estg",
+      "paragraf": "§ 33 Abs. 5 Z 4"
+    },
+    "sonstige_bezuege": {
+      "quelle": "estg",
+      "paragraf": "§ 67 Abs. 1 und 2",
+      "freigrenze_jahressechstel": {
+        "wert": 267500,
+        "quelle": "iav2027"
+      },
+      "stufen": [
+        {
+          "bis": 62000,
+          "satz": 0
+        },
+        {
+          "bis": 2500000,
+          "satz": 600
+        },
+        {
+          "bis": 5000000,
+          "satz": 2700
+        },
+        {
+          "bis": 8333300,
+          "satz": 3575
+        }
+      ]
+    },
+    "familienbonus_aufteilung": {
+      "anteile_unter4": [
+        100,
+        50
+      ],
+      "anteile_ab4": [
+        75,
+        50,
+        25
+      ],
+      "quelle": "bbg2027",
+      "paragraf": "§ 33 Abs. 3a Z 2",
+      "hinweis": "Ab dem vollendeten 4. Lebensjahr nur 75:25 oder 50:50, außer bei erhöhter Familienbeihilfe."
+    }
+  },
+  "offen": [
+    "Kundmachung der Aufwertungszahl und der Höchstbeitragsgrundlage 2027 nach § 108 ASVG im BGBl. II (Werte unten mit 'vorlaeufig': true)",
+    "Grenzbeträge der AV-Staffel 2027 (folgen aus der Aufwertungszahl 2027)",
+    "Referenzabgleich mit dem BMF-Brutto-Netto-Rechner 2027, sobald dieser verfügbar ist"
+  ]
+}
